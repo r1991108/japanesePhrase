@@ -79,19 +79,19 @@ add.addEventListener("click", (e) => {
     todoItem.addEventListener("animationend", () => {
       // localstorageからデータを削除
       let text = todoItem.children[0].innerText;
-      let myListArray = JSON.parse(localStorage.getItem("list"));
+      let myListArray = JSON.parse(localStorage.getItem("questionList"));
       myListArray.forEach((item, index) => {
         if (item.todoText === text) {
           myListArray.splice(index, 1);
-          localStorage.setItem("list", JSON.stringify(myListArray));
+          localStorage.setItem("questionList", JSON.stringify(myListArray));
         }
       });
       todoItem.remove(); // todoItemを削除するイベントをanimationが終わった後にするよう設定
-      let myList = localStorage.getItem("list");
+      let myList = localStorage.getItem("questionList");
       if (myList === "[]") {
         console.log("listがなくなった");
         let sortButton = document.querySelector(".sort button");
-        sortButton.innerText = "Todoリストがない";
+        sortButton.innerText = "何もない";
       }
     });
     todoItem.style.animation = "scaleDown 0.3s forwards";
@@ -111,15 +111,15 @@ add.addEventListener("click", (e) => {
   };
 
   // データを配列に保存する
-  let myList = localStorage.getItem("list");
+  let myList = localStorage.getItem("questionList");
   if (myList == null) {
-    localStorage.setItem("list", JSON.stringify([myTodo]));
+    localStorage.setItem("questionList", JSON.stringify([myTodo]));
   } else {
     let myListArray = JSON.parse(myList);
     myListArray.push(myTodo);
-    localStorage.setItem("list", JSON.stringify(myListArray));
+    localStorage.setItem("questionList", JSON.stringify(myListArray));
   }
-  console.log(JSON.parse(localStorage.getItem("list")));
+  console.log(JSON.parse(localStorage.getItem("questionList")));
 
   // inputを初期化
   for (let i = 0; i < form.children.length - 1; i++) {
@@ -136,7 +136,7 @@ add.addEventListener("click", (e) => {
 loadData();
 // localStorageからデータをロードする関数
 function loadData() {
-  let myList = localStorage.getItem("list");
+  let myList = localStorage.getItem("questionList");
   if (myList !== "[]") {
     let myListArray = JSON.parse(myList);
 
@@ -188,11 +188,11 @@ function loadData() {
         todoItem.addEventListener("animationend", () => {
           // localstorageからデータを削除
           let text = todoItem.children[0].innerText;
-          let myListArray = JSON.parse(localStorage.getItem("list"));
+          let myListArray = JSON.parse(localStorage.getItem("questionList"));
           myListArray.forEach((item, index) => {
             if (item.todoText === text) {
               myListArray.splice(index, 1);
-              localStorage.setItem("list", JSON.stringify(myListArray));
+              localStorage.setItem("questionList", JSON.stringify(myListArray));
             }
           });
           todoItem.remove(); // todoItemを削除するイベントをanimationが終わった後にするよう設定
@@ -259,13 +259,13 @@ function mergeSort(arr) {
   }
 }
 
-// console.log(mergeSort(JSON.parse(localStorage.getItem("list"))));
+// console.log(mergeSort(JSON.parse(localStorage.getItem("questionList"))));
 
 let sortButton = document.querySelector("div.sort button");
 sortButton.addEventListener("click", () => {
   // データをソートする
-  let sortedArray = mergeSort(JSON.parse(localStorage.getItem("list")));
-  localStorage.setItem("list", JSON.stringify(sortedArray));
+  let sortedArray = mergeSort(JSON.parse(localStorage.getItem("questionList")));
+  localStorage.setItem("questionList", JSON.stringify(sortedArray));
 
   // リストからtodoリストを削除する
   let len = section.children.length;
