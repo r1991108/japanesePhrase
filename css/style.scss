@@ -9,7 +9,11 @@ i {
 }
 body {
   height: 100vh;
-  background: linear-gradient(45deg, rgb(199, 153, 150), rgb(99, 206, 218));
+  background: linear-gradient(
+    90deg,
+    rgb(30, 221, 173),
+    rgba(70, 205, 153, 0.454)
+  );
 }
 header {
   height: 20vh;
