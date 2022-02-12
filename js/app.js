@@ -30,12 +30,18 @@ add.addEventListener("click", (e) => {
     }
   }
 
+  // 追加したときの時間を取得
+  let currentTime = Date.now();
+
   //todo elementを新しく作る
   let todo = document.createElement("div");
   todo.classList.add("todo");
   let text = document.createElement("div");
   text.classList.add("todo-text");
   text.innerText = todoText;
+  let time = document.createElement("div");
+  time.innerText = currentTime;
+  time.style = "display:none";
 
   // text展開用
   text.addEventListener("click", (e) => {
@@ -57,6 +63,7 @@ add.addEventListener("click", (e) => {
     }
   });
 
+  text.appendChild(time);
   todo.appendChild(text);
   section.appendChild(todo);
 
@@ -68,6 +75,23 @@ add.addEventListener("click", (e) => {
     console.log("completeButon is been clicked");
     let todoItem = e.target.parentElement;
     todoItem.classList.toggle("done");
+    // チェックボタンを押下するたびに、localStorageに最新のclassListを保存する
+    let currentTime = todoItem.children[0].children[0].innerText;
+    let myList = localStorage.getItem("questionList");
+    if (myList !== "[]") {
+      let myListArray = JSON.parse(myList);
+      let myListArray2 = [];
+      myListArray.forEach((item) => {
+        if (String(item.todoNo) == currentTime) {
+          console.log("item", item.todoClassList);
+          item.todoClassList = JSON.stringify(todo.classList);
+          myListArray2.push(item);
+        } else {
+          myListArray2.push(item);
+        }
+      });
+      localStorage.setItem("questionList", JSON.stringify(myListArray2));
+    }
   });
 
   let trashButton = document.createElement("button");
@@ -107,7 +131,9 @@ add.addEventListener("click", (e) => {
 
   //myTodo objectを作成
   let myTodo = {
+    todoNo: currentTime,
     todoText: todoText,
+    todoClassList: JSON.stringify(todo.classList),
   };
 
   // データを配列に保存する
@@ -126,9 +152,6 @@ add.addEventListener("click", (e) => {
     form.children[i].value = "";
   }
 
-  let sortButton = document.querySelector(".sort button");
-  sortButton.innerText = "日付でソート";
-
   //   console.log(todoText + " " + todoMonth + " " + todoDate);
 });
 
@@ -142,11 +165,21 @@ function loadData() {
 
     myListArray.forEach((item) => {
       //todoを作成
+      console.log("item", item);
       let todo = document.createElement("div");
-      todo.classList.add("todo");
       let text = document.createElement("div");
+      let classArray = JSON.parse(item.todoClassList);
+      //localStorageからclassListを取得
+      let classList = "";
+      for (const key in classArray) {
+        classList = `${classList} ${classArray[key]}`;
+      }
+      todo.classList = classList;
       text.classList.add("todo-text");
       text.innerText = item.todoText;
+      let time = document.createElement("div");
+      time.innerText = item.todoNo;
+      time.style = "display:none";
       // text展開用
       text.addEventListener("click", (e) => {
         // console.log("onclick");
@@ -166,7 +199,7 @@ function loadData() {
           text.style.whiteSpace = "break-spaces";
         }
       });
-
+      text.appendChild(time);
       todo.appendChild(text);
 
       //チェックボタン、ゴミ箱ボタンを追加
@@ -177,6 +210,23 @@ function loadData() {
         console.log("completeButon is been clicked");
         let todoItem = e.target.parentElement;
         todoItem.classList.toggle("done");
+        // チェックボタンを押下するたびに、localStorageに最新のclassListを保存する
+        let currentTime = todoItem.children[0].children[0].innerText;
+        let myList = localStorage.getItem("questionList");
+        if (myList !== "[]") {
+          let myListArray = JSON.parse(myList);
+          let myListArray2 = [];
+          myListArray.forEach((item) => {
+            if (String(item.todoNo) == currentTime) {
+              console.log("item", item.todoClassList);
+              item.todoClassList = JSON.stringify(todo.classList);
+              myListArray2.push(item);
+            } else {
+              myListArray2.push(item);
+            }
+          });
+          localStorage.setItem("questionList", JSON.stringify(myListArray2));
+        }
       });
 
       let trashButton = document.createElement("button");
@@ -206,73 +256,7 @@ function loadData() {
       section.appendChild(todo);
     });
   } else {
-    let sortButton = document.querySelector(".sort button");
-    console.log("listが存在しない");
-    sortButton.innerText = "まだ何もない";
-  }
-}
-
-// merge sortでリストをソートする
-function mergeTime(arr1, arr2) {
-  let result = [];
-  let i = 0;
-  let j = 0;
-
-  while (i < arr1.length && j < arr2.length) {
-    if (Number(arr1[i].todoMonth) > Number(arr2[j].todoMonth)) {
-      result.push(arr2[j]);
-      j++;
-    } else if (Number(arr1[i].todoMonth) < Number(arr2[j].todoMonth)) {
-      result.push(arr1[i]);
-      i++;
-    } else if (Number(arr1[i].todoMonth) == Number(arr2[j].todoMonth)) {
-      if (Number(arr1[i].todoDate) > Number(arr2[j].todoDate)) {
-        result.push(arr2[j]);
-        j++;
-      } else {
-        result.push(arr1[i]);
-        i++;
-      }
-    }
-  }
-
-  while (i < arr1.length) {
-    result.push(arr1[i]);
-    i++;
-  }
-  while (j < arr2.length) {
-    result.push(arr2[j]);
-    j++;
-  }
-
-  return result;
-}
-
-function mergeSort(arr) {
-  if (arr.length === 1) {
-    return arr;
-  } else {
-    let middle = Math.floor(arr.length / 2);
-    let right = arr.slice(0, middle);
-    let left = arr.slice(middle, arr.length);
-    return mergeTime(mergeSort(right), mergeSort(left));
   }
 }
 
 // console.log(mergeSort(JSON.parse(localStorage.getItem("questionList"))));
-
-let sortButton = document.querySelector("div.sort button");
-sortButton.addEventListener("click", () => {
-  // データをソートする
-  let sortedArray = mergeSort(JSON.parse(localStorage.getItem("questionList")));
-  localStorage.setItem("questionList", JSON.stringify(sortedArray));
-
-  // リストからtodoリストを削除する
-  let len = section.children.length;
-  for (let i = 0; i < len; i++) {
-    section.children[0].remove();
-  }
-
-  // localStorageからデータをロードする
-  loadData();
-});
