@@ -53,6 +53,7 @@ form button {
   margin: 0.1rem;
   -webkit-transition: all 0.1s ease;
   transition: all 0.1s ease;
+  border-radius: 0.5rem;
 }
 
 form input[type="number"] {
@@ -114,6 +115,7 @@ section div.todo div {
   margin-right: 0.3rem;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius: 0.5rem;
 }
 
 section div.todo div.todo-text {
@@ -136,6 +138,7 @@ section div.todo button {
   color: white;
   margin-right: 0.3rem;
   margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 section div.todo button.complete {
