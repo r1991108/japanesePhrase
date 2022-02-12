@@ -46,7 +46,7 @@ add.addEventListener("click", (e) => {
   // text展開用
   text.addEventListener("click", (e) => {
     // console.log("onclick");
-    if (text.style.width === "90vw") {
+    if (text.scrollWidth === text.clientWidth) {
       todo.style.flexWrap = "";
       text.style.width = "";
       text.style.maxWidth = "";
@@ -194,7 +194,9 @@ function loadData() {
       // text展開用
       text.addEventListener("click", (e) => {
         // console.log("onclick");
-        if (text.style.width === "90vw") {
+        console.log("e.clientX", text.scrollWidth, text.clientWidth);
+
+        if (text.scrollWidth === text.clientWidth) {
           todo.style.flexWrap = "";
           text.style.width = "";
           text.style.maxWidth = "";
