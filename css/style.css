@@ -11,8 +11,8 @@ i {
 
 body {
   height: 100vh;
-  background: -webkit-gradient(linear, left top, right top, from(#499d05), to(#1f6667));
-  background: linear-gradient(90deg, #499d05, #1f6667);
+  background: -webkit-gradient(linear, left top, right top, from(#52409c), to(#0e1c2e));
+  background: linear-gradient(90deg, #52409c, #0e1c2e);
 }
 
 header {
@@ -74,8 +74,7 @@ form input[type="number"] {
 
 form button {
   cursor: pointer;
-  background-color: #1e0d31;
-  color: white;
+  background-color: #9323bf;
 }
 
 section {
@@ -242,7 +241,7 @@ div.sort button {
   }
   form button {
     cursor: pointer;
-    background-color: #1e0d31;
+    background-color: #9323bf;
     color: white;
   }
   section div.todo {

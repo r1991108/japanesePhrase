@@ -9,7 +9,7 @@ i {
 }
 body {
   height: 100vh;
-  background: linear-gradient(90deg, rgb(73, 157, 5), rgb(31, 102, 103));
+  background: linear-gradient(90deg, rgb(82, 64, 156), rgb(14, 28, 46));
 }
 header {
   height: 20vh;
@@ -53,8 +53,7 @@ form {
   //ボタン見た目設計
   button {
     cursor: pointer;
-    background-color: rgb(30, 13, 49);
-    color: white;
+    background-color: rgb(147, 35, 191);
   }
 }
 
@@ -173,7 +172,7 @@ div.sort {
     //ボタン見た目設計
     button {
       cursor: pointer;
-      background-color: rgb(30, 13, 49);
+      background-color: rgb(147, 35, 191);
       color: white;
     }
   }
